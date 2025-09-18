@@ -12,7 +12,6 @@ import {generateAvatarUri} from "@/lib/avatar";
 interface Props {
     meetingId: string;
 }
-
 export const Transcript = ({meetingId}: Props) => {
     const trpc = useTRPC();
     const {data} = useQuery(trpc.meetings.getTranscript.queryOptions({id: meetingId}))

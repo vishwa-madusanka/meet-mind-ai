@@ -57,8 +57,8 @@ export const CompletedState = ({data}:Props) => {
                 <TabsContent value= "chat">
                     <ChatProvider meetingId ={data.id} meetingName={data.name}/>
                 </TabsContent>
-                <TabsContent value= "transcript">
-                <Transcript meetingId ={data.id} />
+              <TabsContent value="transcript">
+                <Transcript meetingId={data.id}/>
             </TabsContent>
                 <TabsContent value={"recording"}>
                     <div className={'bg-white rounded-lg border px-4 py-5'}>
