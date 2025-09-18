@@ -53,6 +53,7 @@ export const ChatUI = ({
             members: [userId],
     });
 
+
     setChannel(channel);
     }, [client, meetingId, meetingName, userId]);
 

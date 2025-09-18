@@ -17,8 +17,7 @@ import {ChatCompletionMessageParam} from "openai/resources/index.mjs";
 import {streamChat} from "@/lib/stream-chat";
 import {generateAvatarUri} from "@/lib/avatar";
 
-const openaiClient = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY!});
+const openaiClient = new OpenAI({ apiKey: process.env.OPEMAI_API_KEY!});
 
 function verifySignatureWithSDK(body: string, signature: string): boolean {
     return streamVideo.verifyWebhook(body, signature);

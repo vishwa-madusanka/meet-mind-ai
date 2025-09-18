@@ -15,46 +15,46 @@ import {streamChat} from "@/lib/stream-chat";
 export const meetingsRouter = createTRPCRouter({
     generateChatToken: protectedProcedure.mutation(async ({ctx})=>{
         const token = streamChat.createToken(ctx.auth.user.id);
-           await streamChat.upsertUser({
+        await streamChat.upsertUser({
             id: ctx.auth.user.id,
             role: "admin",
         });
-           return token;
+        return token;
     }),
     getTranscript: protectedProcedure
         .input(z.object({id:z.string()}))
         .query(async ({input,ctx})=>{
-        const [existingMeeting] = await db
-            .select()
-            .from(meetings)
-            .where(
-                and(eq(meetings.id, input.id), eq(meetings.userId, ctx.auth.user.id))
-            );
-        if (!existingMeeting.transcriptUrl) {
-            return[];
-        }
-        const transcript = await fetch(existingMeeting.transcriptUrl)
-            .then((res) => res.text())
-            .then((text) => JSONL.parse<StreamTranscriptItem>(text))
-            .catch(()=>{
-                return[]
-            });
-        const speakerIds = [
-            ...new Set (transcript.map((item)=> item.speaker_Id)),
-        ];
+            const [existingMeeting] = await db
+                .select()
+                .from(meetings)
+                .where(
+                    and(eq(meetings.id, input.id), eq(meetings.userId, ctx.auth.user.id))
+                );
+            if (!existingMeeting.transcriptUrl) {
+                return[];
+            }
+            const transcript = await fetch(existingMeeting.transcriptUrl)
+                .then((res) => res.text())
+                .then((text) => JSONL.parse<StreamTranscriptItem>(text))
+                .catch(()=>{
+                    return[]
+                });
+            const speakerIds = [
+                ...new Set (transcript.map((item)=> item.speaker_Id)),
+            ];
 
-        const userSpeakers = await db
-            .select()
-            .from(user)
-            .where(inArray(user.id, speakerIds))
-            .then((users) =>
-            users.map((user) => ({
-                ...user,
-                    image:
-                user.image ??
-                    generateAvatarUri({seed: user.name, variant: "initials"}),
-            }))
-        );
+            const userSpeakers = await db
+                .select()
+                .from(user)
+                .where(inArray(user.id, speakerIds))
+                .then((users) =>
+                    users.map((user) => ({
+                        ...user,
+                        image:
+                            user.image ??
+                            generateAvatarUri({seed: user.name, variant: "initials"}),
+                    }))
+                );
 
             const agentSpeakers = await db
                 .select()
@@ -104,7 +104,7 @@ export const meetingsRouter = createTRPCRouter({
 
 
 
-}),
+        }),
 
 
     generateToken: protectedProcedure.mutation(async ({ctx}) => {
