@@ -19,7 +19,6 @@ import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { formatDuration } from "@/lib/utils";
 import Markdown from "react-markdown";
-// ++ FIX 1: Ensure the filename is 'transcript.tsx' in your 'ui' folder for this path to work.
 import { Transcript } from "@/components/ui/transcipt";
 import { ChatProvider } from "@/modules/agents/ui/components/chat-provider";
 import { useState } from "react";
@@ -39,7 +38,6 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
-import { TRPCClientError } from "@trpc/client";
 
 interface Props {
     data: MeetingGetOne;
@@ -59,13 +57,14 @@ export const CompletedState = ({ data }: Props) => {
         updateSummaryMutation.mutate({ id: data.id, summary: summaryContent }, {
             onSuccess: () => {
                 toast.success("Summary saved successfully!");
+                // 👇 ADD THIS LINE BACK
                 queryClient.invalidateQueries({
                     queryKey: trpc.meetings.getOne.queryKey({ id: data.id }),
                 });
                 setIsEditing(false);
             },
-            // ++ FIX 2: Update the onError signature to include all three arguments. Use `unknown` to satisfy ESLint.
-            onError: (error: TRPCClientError<unknown>) => {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            onError: (error, _variables, _context) => {
                 toast.error("Failed to save summary", { description: error.message });
             },
         });
@@ -75,13 +74,14 @@ export const CompletedState = ({ data }: Props) => {
         deleteSummaryMutation.mutate({ id: data.id }, {
             onSuccess: () => {
                 toast.success("Summary deleted successfully!");
+                // 👇 ADD THIS LINE BACK
                 queryClient.invalidateQueries({
                     queryKey: trpc.meetings.getOne.queryKey({ id: data.id }),
                 });
                 setSummaryContent("");
             },
-            // ++ FIX 2: Apply the same signature fix here.
-            onError: (error: TRPCClientError<unknown>) => {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            onError: (error, _variables, _context) => {
                 toast.error("Failed to delete summary", { description: error.message });
             },
         });
@@ -95,7 +95,6 @@ export const CompletedState = ({ data }: Props) => {
     const isUpdating = updateSummaryMutation.isPending;
     const isDeleting = deleteSummaryMutation.isPending;
 
-    // ... (The rest of the JSX is the same as the previous correct version)
     return (
         <div className={'flex flex-col gap-y-4'}>
             <Tabs defaultValue={'summary'}>
