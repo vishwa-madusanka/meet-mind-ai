@@ -1,4 +1,5 @@
-import {z} from "zod";
+import { z } from "zod";
+
 
 export const meetingsInsertSchema = z.object({
     name: z.string().min(1, "Name is required"),
@@ -6,16 +7,21 @@ export const meetingsInsertSchema = z.object({
 });
 
 export const meetingsUpdateSchema = meetingsInsertSchema.extend({
-    id: z.string().min(1, {message: "ID is required"}),
+    id: z.string().min(1, { message: "ID is required" }),
 });
 
-// ++ ADD a schema for updating the summary
-export const meetingsUpdateSummarySchema = z.object({
-    id: z.string().min(1, { message: "ID is required" }),
-    summary: z.string(), // Allow empty string for creating a blank summary
+
+export const noteInsertSchema = z.object({
+    meetingId: z.string(),
+    note: z.string().min(3, { message: "Note must be at least 3 characters long." }),
+    email: z.string().email({ message: "Please enter a valid email address." }),
 });
 
-// ++ ADD a schema for deleting the summary
-export const meetingsDeleteSummarySchema = z.object({
-    id: z.string().min(1, { message: "ID is required" }),
+export const noteUpdateSchema = z.object({
+    id: z.string(),
+    note: z.string().min(3, { message: "Note must be at least 3 characters long." }),
+});
+
+export const noteDeleteSchema = z.object({
+    id: z.string(),
 });
