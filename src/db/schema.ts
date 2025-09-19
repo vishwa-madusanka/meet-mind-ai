@@ -1,5 +1,7 @@
 import {pgTable, text, timestamp, boolean, pgEnum} from "drizzle-orm/pg-core";
 import {nanoid} from "nanoid";
+
+// ... (keep user, session, account, verification, agent tables as they are)
 export const user = pgTable("user", {
     id: text('id').primaryKey(),
     name: text('name').notNull(),
@@ -65,7 +67,7 @@ export const meetingStatus = pgEnum("meeting_status", [
     "completed",
     "cancelled",
     "processing"
-    ]);
+]);
 
 export const meetings = pgTable("meetings", {
     id: text('id')
@@ -84,6 +86,22 @@ export const meetings = pgTable("meetings", {
     transcriptUrl: text('transcript_url'),
     recordingUrl: text('recording_url'),
     summary: text('summary'),
+    createdAt: timestamp('created_at').defaultNow(),
+    updatedAt: timestamp('updated_at').defaultNow()
+});
+
+export const transcriptNote = pgTable("transcript_note", {
+    id: text('id')
+        .primaryKey()
+        .$defaultFn(() => nanoid()),
+    meetingId: text('meeting_id')
+        .notNull()
+        .references(() => meetings.id, { onDelete: 'cascade' }),
+    userId: text('user_id')
+        .notNull()
+        .references(() => user.id, { onDelete: 'cascade' }),
+    note: text('note').notNull(),
+    email: text('email').notNull(),
     createdAt: timestamp('created_at').defaultNow(),
     updatedAt: timestamp('updated_at').defaultNow()
 });
