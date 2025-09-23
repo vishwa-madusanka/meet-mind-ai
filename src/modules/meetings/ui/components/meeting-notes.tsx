@@ -58,7 +58,6 @@ interface MeetingNotesProps {
     meetingId: string;
 }
 
-
 export const MeetingNotes = ({ meetingId }: MeetingNotesProps) => {
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [noteToDelete, setNoteToDelete] = useState<Note | null>(null);

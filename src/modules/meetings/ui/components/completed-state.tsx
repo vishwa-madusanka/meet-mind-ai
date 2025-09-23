@@ -8,7 +8,7 @@ import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { formatDuration } from "@/lib/utils";
 import Markdown from "react-markdown";
-import { Transcript } from "@/components/ui/transcipt";
+import { Transcript } from "@/components/ui/transcript";
 import { ChatProvider } from "@/modules/agents/ui/components/chat-provider";
 import { MeetingNotes } from "./meeting-notes";
 import { Button } from "@/components/ui/button";
@@ -105,17 +105,17 @@ export const CompletedState = ({ data }: Props) => {
 
                                     {/* Replace the old Button with the new PDFDownloadLink */}
                                     {isClient && (
-                                        <PDFDownloadLink
-                                            document={<SummaryPdfDocument data={data} />}
-                                            fileName={`Summary - ${data.name.replace(/\s/g, '_')}.pdf`}
-                                        >
-                                            {({ loading }) => (
-                                                <Button disabled={loading} variant="outline" size="sm">
-                                                    <DownloadIcon className="size-4 mr-2" />
-                                                    {loading ? 'Generating...' : 'Download PDF'}
-                                                </Button>
-                                            )}
-                                        </PDFDownloadLink>
+                                      <PDFDownloadLink
+                                        document={<SummaryPdfDocument data={data} />}
+                                        fileName={`Summary - ${data.name.replace(/\s/g, '_')}.pdf`}
+                                      >
+                                        {({ loading }) => (
+                                          <Button disabled={loading} variant="outline" size="sm">
+                                            <DownloadIcon className="size-4 mr-2" />
+                                            {loading ? 'Generating...' : 'Download PDF'}
+                                          </Button>
+                                        )}
+                                      </PDFDownloadLink>
                                     )}
                                 </div>
                                 <Badge variant={'outline'} className={'flex items-center gap-x-2 [&>svg]:size-4 w-fit'}>
