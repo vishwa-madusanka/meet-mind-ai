@@ -14,7 +14,7 @@ import Image from "next/image";
 import {Separator} from "@/components/ui/separator";
 import {cn} from "@/lib/utils";
 import {usePathname} from "next/navigation";
-import {DashboardUserButton} from "@/modules/dashboard/ui/components/dashboard-user-button";
+import dynamic from 'next/dynamic';
 
 const firstSection = [
     {
@@ -37,6 +37,12 @@ const secondSection = [
     },
 ];
 
+// Import the DashboardUserButton dynamically with SSR disabled to prevent hydration errors
+const DashboardUserButton = dynamic(() =>
+        import('@/modules/dashboard/ui/components/dashboard-user-button').then(mod => mod.DashboardUserButton),
+    { ssr: false }
+);
+
 export const DashboardSidebar = () => {
     const pathname = usePathname();
     return(
@@ -57,10 +63,10 @@ export const DashboardSidebar = () => {
                             {firstSection.map((item) => (
                                 <SidebarMenuItem key={item.href}>
                                     <SidebarMenuButton asChild={true} isActive={pathname === item.href}
-                                        className={cn(
-                                        "h-10 hover:bg-linear-to-r/oklch border border-transparent hover:border-[#5D6B68]/10 from-sidebar-accent from-5% via-30% via-sidebar/50 to-sidebar/50",
-                                        pathname === item.href && "bg-linear-to-r/oklch border-[#5D6B68]/10 "
-                                    )}>
+                                                       className={cn(
+                                                           "h-10 hover:bg-linear-to-r/oklch border border-transparent hover:border-[#5D6B68]/10 from-sidebar-accent from-5% via-30% via-sidebar/50 to-sidebar/50",
+                                                           pathname === item.href && "bg-linear-to-r/oklch border-[#5D6B68]/10 "
+                                                       )}>
                                         <Link href={item.href}>
                                             <item.icon className={'size-5'}/>
                                             <span className={'text-sm font-medium tracking-tight'}>
