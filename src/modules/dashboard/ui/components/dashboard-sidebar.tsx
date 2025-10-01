@@ -14,7 +14,8 @@ import Image from "next/image";
 import {Separator} from "@/components/ui/separator";
 import {cn} from "@/lib/utils";
 import {usePathname} from "next/navigation";
-import dynamic from 'next/dynamic';
+import {DashboardUserButton} from "@/modules/dashboard/ui/components/dashboard-user-button";
+import {DashboardTrial} from "../../dashboard-trial";
 
 const firstSection = [
     {
@@ -36,12 +37,6 @@ const secondSection = [
         href:"/upgrade",
     },
 ];
-
-// Import the DashboardUserButton dynamically with SSR disabled to prevent hydration errors
-const DashboardUserButton = dynamic(() =>
-        import('@/modules/dashboard/ui/components/dashboard-user-button').then(mod => mod.DashboardUserButton),
-    { ssr: false }
-);
 
 export const DashboardSidebar = () => {
     const pathname = usePathname();
@@ -106,6 +101,7 @@ export const DashboardSidebar = () => {
                 </SidebarGroup>
             </SidebarContent>
             <SidebarFooter className={'text-white'}>
+                <DashboardTrial/>
                 <DashboardUserButton />
             </SidebarFooter>
         </Sidebar>

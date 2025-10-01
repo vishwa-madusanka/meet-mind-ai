@@ -53,7 +53,6 @@ type Note = Omit<BaseNote, 'createdAt'> & {
 
 type NoteFormValues = z.infer<typeof noteInsertSchema>;
 type NoteUpdateFormValues = z.infer<typeof noteUpdateSchema>;
-
 interface MeetingNotesProps {
     meetingId: string;
 }

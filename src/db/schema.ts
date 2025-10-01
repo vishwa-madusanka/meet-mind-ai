@@ -105,3 +105,4 @@ export const transcriptNote = pgTable("transcript_note", {
     createdAt: timestamp('created_at').defaultNow(),
     updatedAt: timestamp('updated_at').defaultNow()
 });
+
