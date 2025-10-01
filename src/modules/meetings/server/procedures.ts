@@ -1,4 +1,4 @@
-import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
+import {createTRPCRouter, premiumProcedure, protectedProcedure} from "@/trpc/init";
 import { db } from "@/db";
 // Import the new transcriptNote table
 import { agent, meetings, user, transcriptNote } from "@/db/schema";
@@ -6,6 +6,7 @@ import { z } from "zod";
 import { and, count, desc, eq, getTableColumns, ilike, inArray, InferInsertModel, sql } from "drizzle-orm";
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE, MIN_PAGE_SIZE } from "@/constants";
 import { TRPCError } from "@trpc/server";
+
 // Import the updated meeting and new note schemas
 import {
     meetingsInsertSchema,
@@ -72,7 +73,8 @@ export const meetingsRouter = createTRPCRouter({
 
             const [updatedNote] = await db
                 .update(transcriptNote)
-                .set({ note: input.note, updatedAt: new Date() })
+                .set({ note: input.note,
+                    updatedAt: new Date() })
                 .where(eq(transcriptNote.id, input.id))
                 .returning();
 
@@ -239,7 +241,7 @@ export const meetingsRouter = createTRPCRouter({
             return updatedMeeting;
         }),
 
-    create: protectedProcedure
+    create: premiumProcedure("meetings")
         .input(meetingsInsertSchema)
         .mutation(async ({input, ctx}) => {
             const [createdMeeting] = await db
