@@ -27,11 +27,11 @@ export const Transcript = ({meetingId}: Props) => {
             <div className="relative">
                 <Input
                     placeholder= "Search Transcript"
-                    className = "pl-7 h-9 w-[240px"
+                    className = "pl-7 h-9 w-[240px]"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     />
-                <SearchIcon className= "absolute left-2 top-1/2 -translate-y-1/2 size 4 text-muted-foreground"/>
+                <SearchIcon className= "absolute left-2 top-1/2 -translate-y-1/2 size-4 text-muted-foreground"/>
             </div>
             <ScrollArea>
                 <div className= "flex flex-col gap-y-4">
@@ -72,4 +72,3 @@ export const Transcript = ({meetingId}: Props) => {
     )
 
 };
-
